@@ -1,0 +1,26 @@
+{
+  "name": "swc-lib",
+  "version": "0.0.4",
+  "description": "",
+  "main": "lib/lib.js",
+  "module": "esm/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"webpack",
+    "esm" : "swc src/index.js -d esm"
+  },
+  "files": [
+    "lib",
+    "esm"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@swc/cli": "^0.1.62",
+    "@swc/core": "^1.3.44",
+    "swc-loader": "^0.2.3",
+    "webpack": "^5.77.0",
+    "webpack-cli": "^5.0.1"
+  }
+}
