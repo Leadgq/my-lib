@@ -122,3 +122,28 @@ findTreeByTreeData(tree, key, value);
  */
 findChildrenList(tree, key,value)
 ```
+
+
+```js
+/**
+ * @param {Array} 
+ * @param {String} key
+ * @returns {Number} 返回数组中key的和
+ * @ description 数组中的key所对应的值如果是undefined、null、''、NaN、' '，会先转换为0，然后再相加
+ * @example sumArrayValue([{a:1},{a:2},{a:'3'},{a:null}, {a:undefined}],'a') // 6
+ */
+sumArrayValue(arr, key)
+```
+
+
+```js
+/**
+* @param {Number} value
+* @param {Number} total
+* @param {Number} dots 保留小数点位数
+* @returns {Number} 返回百分比
+* @description 计算百分比
+* @example calculatePercentage(1, 2, 2) // 50.00
+*/
+calculatePercentage(value, total, dots = 2)
+```
