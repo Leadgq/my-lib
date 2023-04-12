@@ -1,5 +1,4 @@
  <h1>swb-lib方法</h1>
- <h2>新增前序遍历、深度、广度、后序遍历</h2>
 ```js
 /**
  * @param {Array} arr 
