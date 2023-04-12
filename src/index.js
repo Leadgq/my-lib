@@ -7,7 +7,7 @@
  * @example isAbleArray([1]) // true
  * @example isAbleArray([1,2]) // true
  */
-export const isAbleArray = arr => arr && Array.isArray(arr) && arr.length > 0
+export const isAbleArray = arr =>  Array.isArray(arr) && arr.length > 0
 /**
  * @param {Object} obj 
  * @returns  {Boolean} 当前对象是否可用
@@ -16,7 +16,7 @@ export const isAbleArray = arr => arr && Array.isArray(arr) && arr.length > 0
  * @example isAbleObject(undefined) // false
  * @example isAbleObject({a:1}) // true
  */
-export const isAbleObject = obj => obj && Object.prototype.toString.call(obj) === '[object Object]' && Object.keys(obj).length > 0
+export const isAbleObject = obj =>  Object.prototype.toString.call(obj) === '[object Object]' && Object.keys(obj).length > 0
 /**
  * @param {String} str
  * @returns  {Boolean} 当前字符串是否可用
@@ -25,7 +25,7 @@ export const isAbleObject = obj => obj && Object.prototype.toString.call(obj) ==
  * @example isAbleString(undefined) // false
  * @example isAbleString('1') // true
  */
-export const isAbleString = str => str && typeof str === 'string' && str.length > 0
+export const isAbleString = str =>  typeof str === 'string' && str.length > 0
 /**
  * @param {Number} num
  * @returns  {Boolean} 当前数字是否可用
@@ -69,10 +69,10 @@ export const stringToNumber = (str) => {
 /** 
  * @param {Array | Object} tree  树数组或者树对象
  * @returns {Array} 压平的树
- * @description 广度优先遍历、非递归
+ * @description 前序遍历 ==> 广度优先遍历、非递归
  */
 export const flattenTree = (tree) => {
-    if (!isAbleArray(tree)) throw new Error('tree is not a able array or tree is empty');
+    if (!isAbleArray(tree) || !isAbleObject(tree)) throw new Error('tree is not a able array or a object or tree is empty');
     const result = [];
     const queue = isAbleObject(tree) ? [tree] : [...tree];
     while (queue.length > 0) {
@@ -80,6 +80,42 @@ export const flattenTree = (tree) => {
         result.push(node);
         if (isAbleArray(node?.children)) {
             queue.push(...node.children);
+        }
+    }
+    return result;
+}
+/** 
+ * @param {Array | Object} tree  树数组或者树对象
+ * @returns {Array} 压平的树
+ * @description 前序遍历 ==> 深度遍历、非递归
+ */
+export const flattenTreeByDepth = (tree) => {
+    if (!isAbleArray(tree) || !isAbleObject(tree)) throw new Error('tree is not a able array or a object or tree is empty');
+    const result = [];
+    const queue = isAbleObject(tree) ? [tree] : [...tree];
+    while (queue.length > 0) {
+        const node = queue.pop();
+        result.push(node);
+        if (isAbleArray(node?.children)) {
+            queue.push(...node.children);
+        }
+    }
+    return result;
+}
+/** 
+ * @param {Array | Object} tree  树数组或者树对象
+ * @returns {Array} 压平的树
+ * @description 后序遍历、非递归
+ */
+export const flattenTreeByPostOrder = (tree) => {
+    if (!isAbleArray(tree) || !isAbleObject(tree)) throw new Error('tree is not a able array or a object or tree is empty');
+    const stack = isAbleObject(tree) ? [tree] : [...tree];
+    let result = []
+    while (stack.length > 0) {
+        const node = stack.pop();
+        result.unshift(node)
+        if (node.children) {
+            stack.push(...node.children)
         }
     }
     return result;

@@ -1,5 +1,5 @@
  <h1>swb-lib方法</h1>
- 
+ <h2>新增前序遍历、深度、广度、后序遍历</h2>
 ```js
 /**
  * @param {Array} arr 
@@ -61,6 +61,24 @@ isAbleNumber(num);
  * @returns [{id: 1, name: '1', children: [{ id:2 ,name:'2'}]}, { id:2 ,name:'2'}]
  */
 flattenTree(arr)
+```
+
+```js
+/** 
+ * @param {Array | Object} tree  树数组或者树对象
+ * @returns {Array} 压平的树
+ * @description 前序遍历 ==> 深度遍历、非递归
+ */
+flattenTreeByDepth(arr)
+```
+
+```js
+/** 
+ * @param {Array | Object} tree  树数组或者树对象
+ * @returns {Array} 压平的树
+ * @description 前序遍历 ==> 深度遍历、非递归
+ */
+flattenTreeByDepth(arr)
 ```
 
 ```js
