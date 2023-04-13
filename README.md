@@ -76,9 +76,9 @@ flattenTreeByDepth(arr)
 /** 
  * @param {Array | Object} tree  树数组或者树对象
  * @returns {Array} 压平的树
- * @description 前序遍历 ==> 深度遍历、非递归
+ * @description 后序遍历 ==> 深度遍历、非递归
  */
-flattenTreeByDepth(arr)
+flattenTreeByPostOrder(arr)
 ```
 
 ```js
