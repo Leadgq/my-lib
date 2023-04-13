@@ -1,5 +1,6 @@
- <h1>swb-lib方法</h1>
- 
+<h1>swb-lib方法</h1>
+<h2>新增前序遍历、广度遍历、深度遍历、后序遍历</h2>
+
 ```js
 /**
  * @param {Array} arr 
@@ -163,5 +164,5 @@ sumArrayValue(arr, key)
 * @description 计算百分比
 * @example calculatePercentage(1, 2, 2) // 50.00
 */
-calculatePercentage(value, total, dots = 2)
+ calculatePercentage(value, total, dots = 2)
 ```
