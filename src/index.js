@@ -72,7 +72,7 @@ export const stringToNumber = (str) => {
  * @description 前序遍历 ==> 广度优先遍历、非递归
  */
 export const flattenTree = (tree) => {
-    if (!isAbleArray(tree) || !isAbleObject(tree)) throw new Error('tree is not a able array or a object or tree is empty');
+    if (!isAbleArray(tree) && !isAbleObject(tree)) throw new Error('tree is not a able array or a object or tree is empty');
     const result = [];
     const queue = isAbleObject(tree) ? [tree] : [...tree];
     while (queue.length > 0) {
@@ -90,7 +90,7 @@ export const flattenTree = (tree) => {
  * @description 前序遍历 ==> 深度遍历、非递归
  */
 export const flattenTreeByDepth = (tree) => {
-    if (!isAbleArray(tree) || !isAbleObject(tree)) throw new Error('tree is not a able array or a object or tree is empty');
+    if (!isAbleArray(tree) && !isAbleObject(tree)) throw new Error('tree is not a able array or a object or tree is empty');
     const result = [];
     const queue = isAbleObject(tree) ? [tree] : [...tree];
     while (queue.length > 0) {
@@ -108,7 +108,7 @@ export const flattenTreeByDepth = (tree) => {
  * @description 后序遍历、非递归
  */
 export const flattenTreeByPostOrder = (tree) => {
-    if (!isAbleArray(tree) || !isAbleObject(tree)) throw new Error('tree is not a able array or a object or tree is empty');
+    if (!isAbleArray(tree) && !isAbleObject(tree)) throw new Error('tree is not a able array or a object or tree is empty');
     const stack = isAbleObject(tree) ? [tree] : [...tree];
     let result = []
     while (stack.length > 0) {
