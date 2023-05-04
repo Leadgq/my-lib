@@ -1,5 +1,5 @@
 /**
- * @param {Array} arr 
+ * @param {Array} arr
  * @returns  {Boolean} 当前数组是否可用
  * @example isAbleArray([]) // false
  * @example isAbleArray(null) // false
@@ -9,7 +9,7 @@
  */
 export const isAbleArray = arr =>  Array.isArray(arr) && arr.length > 0
 /**
- * @param {Object} obj 
+ * @param {Object} obj
  * @returns  {Boolean} 当前对象是否可用
  * @example isAbleObject({}) // false
  * @example isAbleObject(null) // false
@@ -66,7 +66,7 @@ export const stringToNumber = (str) => {
     if (!str) return 0
     return Number(str);
 }
-/** 
+/**
  * @param {Array | Object} tree  树数组或者树对象
  * @returns {Array} 压平的树
  * @description 前序遍历 ==> 广度优先遍历、非递归
@@ -84,7 +84,7 @@ export const flattenTree = (tree) => {
     }
     return result;
 }
-/** 
+/**
  * @param {Array | Object} tree  树数组或者树对象
  * @returns {Array} 压平的树
  * @description 前序遍历 ==> 深度遍历、非递归
@@ -102,7 +102,7 @@ export const flattenTreeByDepth = (tree) => {
     }
     return result;
 }
-/** 
+/**
  * @param {Array | Object} tree  树数组或者树对象
  * @returns {Array} 压平的树
  * @description 后序遍历、非递归
@@ -139,19 +139,20 @@ export const findTreeByFlatArray = (flatTreeData, key, value) => flatTreeData.fi
 /**
  * @param {Array} tree 树数组
  * @param {String} parentId  当前节点的父节点id、这个节点parentId应来来自于点击时候的parentId
+ * @param showDetail 是否返回当前节点的详细信息
  * @returns {Array} 路径
- * @description 记录当前节点的路径id集合
-*/
-export const savePathIds = (tree, parentId) => {
+ * @description 默认情况下记录当前节点的路径id集合 、showDetail为true时候返回当前节点的详细信息
+ */
+export const findParent = (tree, parentId,showDetail = false) => {
     if (!isAbleArray(tree)) throw new Error('tree is not a array or arr is empty');
     const treeData = flattenTree(tree);
-    let ids = [];
+    let container = [];
     let parent = treeData.find(item => item.id === parentId);
     while (parent) {
-        ids = [parent.id, ...ids];
+        showDetail ? container = [parent, ...container] : container = [parent.id, ...container];
         parent = treeData.find(item => item.id === parent.parentId);
     }
-    return ids;
+    return container;
 }
 /**
  * @param {Array} tree  树数组(正常树)
@@ -177,10 +178,10 @@ export const findTreeByTreeData = (tree, key, value) => {
     return result;
 }
 /**
- * 
- * @param {Array} tree 树数组(正常树) 
- * @param {String} key 
- * @param {String | Number} value 
+ *
+ * @param {Array} tree 树数组(正常树)
+ * @param {String} key
+ * @param {String | Number} value
  * @returns {Array} 返回当前节点的所有子节点
  * @description 深度优先遍历、非递归
  * @example findChildrenList([{id:1,children:[{id:2,children:[{id:3}]}]}],'id',1)  [{id:2},{id:3}]
@@ -202,7 +203,7 @@ export const findChildrenList = (tree, key, value) => {
     return result;
 }
 /**
- * @param {Array} 
+ * @param {Array}
  * @param {String} key
  * @returns {Number} 返回数组中key的和
  * @ description 数组中的key所对应的值如果是undefined、null、''、NaN、' '，会先转换为0，然后再相加

@@ -1,6 +1,6 @@
 {
   "name": "swc-lib",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "关于树的一些方法",
   "main": "lib/lib.js",
   "module": "esm/index.js",
