@@ -141,6 +141,20 @@ findTreeByTreeData(tree, key, value);
 findChildrenList(tree, key,value)
 ```
 
+```js
+/**
+ * @description 用于处理联动
+ * @param {Array} tree 树数组(正常树)
+ * @param {Object} item 当前节点
+ * @param {string} indeterminate 你的半选状态的key
+ * @param {string} checked 你的选中状态的key
+ * @param {string | undefined | null } rootId 根节点的parentId 
+ * @param {string} key 你的唯一标识key
+ * @description rootParentId 用于判断当前节点是否是根节点
+ * @detail 一棵树必须包含主键（id）、parentId、children三个字段 否则无法使用
+ */
+handlerLinkage(treeData, item, indeterminate, checked, rootParentId, key)
+```
 
 ```js
 /**

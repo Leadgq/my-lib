@@ -7,7 +7,7 @@
  * @example isAbleArray([1]) // true
  * @example isAbleArray([1,2]) // true
  */
-export const isAbleArray = arr =>  Array.isArray(arr) && arr.length > 0
+export const isAbleArray = arr => Array.isArray(arr) && arr.length > 0
 /**
  * @param {Object} obj
  * @returns  {Boolean} 当前对象是否可用
@@ -16,7 +16,7 @@ export const isAbleArray = arr =>  Array.isArray(arr) && arr.length > 0
  * @example isAbleObject(undefined) // false
  * @example isAbleObject({a:1}) // true
  */
-export const isAbleObject = obj =>  Object.prototype.toString.call(obj) === '[object Object]' && Object.keys(obj).length > 0
+export const isAbleObject = obj => Object.prototype.toString.call(obj) === '[object Object]' && Object.keys(obj).length > 0
 /**
  * @param {String} str
  * @returns  {Boolean} 当前字符串是否可用
@@ -25,7 +25,7 @@ export const isAbleObject = obj =>  Object.prototype.toString.call(obj) === '[ob
  * @example isAbleString(undefined) // false
  * @example isAbleString('1') // true
  */
-export const isAbleString = str =>  typeof str === 'string' && str.length > 0
+export const isAbleString = str => typeof str === 'string' && str.length > 0
 /**
  * @param {Number} num
  * @returns  {Boolean} 当前数字是否可用
@@ -143,7 +143,7 @@ export const findTreeByFlatArray = (flatTreeData, key, value) => flatTreeData.fi
  * @returns {Array} 路径
  * @description 默认情况下记录当前节点的路径id集合 、showDetail为true时候返回当前节点的详细信息
  */
-export const findParent = (tree, parentId,showDetail = false) => {
+export const findParent = (tree, parentId, showDetail = false) => {
     if (!isAbleArray(tree)) throw new Error('tree is not a array or arr is empty');
     const treeData = flattenTree(tree);
     let container = [];
@@ -201,6 +201,69 @@ export const findChildrenList = (tree, key, value) => {
         }
     }
     return result;
+}
+/**
+ * @description 用于处理联动
+ * @param {Array} tree 树数组(正常树)
+ * @param {Object} item 当前节点
+ * @param {string} indeterminate 你的半选状态的key
+ * @param {string} checked 你的选中状态的key
+ * @param {string | undefined | null } rootId 根节点的parentId 
+ * @param {string} key 你的唯一标识key
+ * @description rootParentId 用于判断当前节点是否是根节点
+ * @detail 一棵树必须包含主键（id）、parentId、children三个字段 否则无法使用
+ */
+export const handlerLinkage = (treeData, item, indeterminate, checked, rootParentId, key) => {
+    if (!isAbleArray(treeData)) throw new Error('treeData is not a array or treeData is empty');
+    if (!isAbleObject(item)) throw new Error('item is not a object or item is empty');
+    if (!isAbleString(indeterminate)) throw new Error('indeterminate is not a string or indeterminate is empty');
+    if (!isAbleString(checked)) throw new Error('checked is not a string or checked is empty');
+    if (!isAbleString(key)) throw new Error('key is not a string or key is empty');
+    // 无子节点、并且不是根节点
+    if (!isAbleArray(item.children) && item.parentId) {
+        handlerParentTreeNodeState(treeData, item, indeterminate, checked, key);
+    } else if (item.parentId !== rootParentId && isAbleArray(item.children)) {
+        // 如果不是根节点
+        handlerAllChildrenNode(treeData, item, indeterminate, checked, key);
+        handlerParentTreeNodeState(treeData, item, indeterminate, checked, key);
+    } else if (item.parentId === rootParentId && isAbleArray(item.children)) {
+        // 如果是根节点
+        handlerAllChildrenNode(treeData, item, indeterminate, checked, key);
+    }
+}
+// 处理所有子节点
+const handlerAllChildrenNode = (treeData, item, indeterminate, checked, key) => {
+    item[indeterminate] = false;
+    const childrenList = findChildrenList(treeData, key, item[key]);
+    childrenList.forEach(tree => {
+        if (tree[indeterminate]) tree[indeterminate] = false;
+        tree[checked] = item[checked];
+    });
+}
+// 处理父节点
+const handlerParentTreeNodeState = (treeData, item, indeterminate, checked, key) => {
+    let parentNodes = findParent(treeData, item.parentId, true).sort((a, b) => b[key] - a[key]);
+    if (isAbleArray(parentNodes)) {
+        parentNodes.forEach(item => {
+            const childrenNode = findChildrenList(treeData, key, item[key]);
+            const state = childrenNode.every(tree => tree[checked]);
+            const indeterminateState = childrenNode.some(tree => tree[checked]);
+            if (indeterminateState) {
+                item[checked] = false;
+                item[indeterminate] = true;
+            }
+            //  如果全部选择
+            if (state) {
+                item[indeterminate] = false;
+                item[checked] = true;
+            }
+            // 如果一个没选
+            if (!indeterminateState && !state) {
+                item[indeterminate] = false;
+                item[checked] = false;
+            }
+        });
+    }
 }
 /**
  * @param {Array}
