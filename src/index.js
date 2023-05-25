@@ -67,6 +67,12 @@ export const stringToNumber = (str) => {
     return Number(str);
 }
 /**
+ * @param fn
+ * @return {boolean}
+ */
+export  const isAbleFn = fn => typeof fn === 'function'
+
+/**
  * @param {Array | Object} tree  树数组或者树对象
  * @returns {Array} 压平的树
  * @description 前序遍历 ==> 广度优先遍历、非递归
@@ -143,8 +149,9 @@ export const findTreeByFlatArray = (flatTreeData, key, value) => flatTreeData.fi
  * @returns {Array} 路径
  * @description 默认情况下记录当前节点的路径id集合 、showDetail为true时候返回当前节点的详细信息
  */
-export const findParent = (tree, parentId, showDetail = false) => {
-    if (!isAbleArray(tree)) throw new Error('tree is not a array or arr is empty');
+export const findParent = (tree, parentId, showDetail = false, callback) => {
+    if (!isAbleArray(tree)) throw new Error( `${tree} is not a array or arr is empty`);
+    if(!parentId) throw new Error( `${parentId} is not a able value`);
     const treeData = flattenTree(tree);
     let container = [];
     let parent = treeData.find(item => item.id === parentId);
@@ -173,6 +180,26 @@ export const findTreeByTreeData = (tree, key, value) => {
         }
         if (isAbleArray(node?.children)) {
             treeData.push(...node.children);
+        }
+    }
+    return result;
+}
+/**
+ * @param {Array} tree  树数组(正常树)
+ * @param {callback} callback 回调函数
+ * @return Array<node>
+ * @description 返回节点数组
+ */
+export const findTreeByFn = (tree, callback) => {
+    if (!isAbleArray(tree)) throw new Error('tree is not a able array or tree is empty');
+    if (!callback || !isAbleFn(callback)) throw new Error(` ${callback} is not a function`);
+    const queue = [...tree];
+    const result = [];
+    while (queue.length > 0) {
+        const node = queue.shift();
+        if (callback(node)) result.push(node);
+        if (isAbleArray(node?.children)) {
+            queue.push(...node.children);
         }
     }
     return result;
@@ -208,7 +235,7 @@ export const findChildrenList = (tree, key, value) => {
  * @param {Object} item 当前节点
  * @param {string} indeterminate 你的半选状态的key
  * @param {string} checked 你的选中状态的key
- * @param {string | undefined | null } rootId 根节点的parentId 
+ * @param {string | undefined | null } rootId 根节点的parentId
  * @param {string} key 你的唯一标识key
  * @description rootParentId 用于判断当前节点是否是根节点
  * @detail 一棵树必须包含主键（id）、parentId、children三个字段 否则无法使用

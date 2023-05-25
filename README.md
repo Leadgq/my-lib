@@ -1,5 +1,5 @@
 <h1>swb-lib方法</h1>
-<h2>新增前序遍历、广度遍历、深度遍历、后序遍历</h2>
+<h2>0.2.0新增 findTreeByFn</h2>
 
 ```js
 /**
@@ -128,6 +128,15 @@ findParent(tree, parentId);
 findTreeByTreeData(tree, key, value);
 ```
 
+```js
+/**
+ * @param {Array} tree  树数组(正常树)
+ * @param {callback} callback 回调函数
+ * @return Array<node>
+ * @description 返回节点数组
+ */
+findTreeByFn(trre,callback);
+```
 
 ```js
 /**
