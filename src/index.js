@@ -149,7 +149,7 @@ export const findTreeByFlatArray = (flatTreeData, key, value) => flatTreeData.fi
  * @returns {Array} 路径
  * @description 默认情况下记录当前节点的路径id集合 、showDetail为true时候返回当前节点的详细信息
  */
-export const findParent = (tree, parentId, showDetail = false, callback) => {
+export const findParent = (tree, parentId, showDetail = false) => {
     if (!isAbleArray(tree)) throw new Error( `${tree} is not a array or arr is empty`);
     if(!parentId) throw new Error( `${parentId} is not a able value`);
     const treeData = flattenTree(tree);
