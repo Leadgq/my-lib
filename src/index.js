@@ -78,7 +78,10 @@ export  const isAbleFn = fn => typeof fn === 'function'
  * @description 前序遍历 ==> 广度优先遍历、非递归
  */
 export const flattenTree = (tree) => {
-    if (!isAbleArray(tree) && !isAbleObject(tree)) throw new Error('tree is not a able array or a object or tree is empty');
+    if (!isAbleArray(tree) && !isAbleObject(tree)) {
+        console.warn('tree is not a able array or a object or tree is empty');
+        return [];
+    }
     const result = [];
     const queue = isAbleObject(tree) ? [tree] : [...tree];
     while (queue.length > 0) {
@@ -96,7 +99,10 @@ export const flattenTree = (tree) => {
  * @description 前序遍历 ==> 深度遍历、非递归
  */
 export const flattenTreeByDepth = (tree) => {
-    if (!isAbleArray(tree) && !isAbleObject(tree)) throw new Error('tree is not a able array or a object or tree is empty');
+    if (!isAbleArray(tree) && !isAbleObject(tree)) {
+        console.warn('tree is not a able array or a object or tree is empty');
+        return [];
+    }
     const result = [];
     const queue = isAbleObject(tree) ? [tree] : [...tree];
     while (queue.length > 0) {
@@ -114,7 +120,10 @@ export const flattenTreeByDepth = (tree) => {
  * @description 后序遍历、非递归
  */
 export const flattenTreeByPostOrder = (tree) => {
-    if (!isAbleArray(tree) && !isAbleObject(tree)) throw new Error('tree is not a able array or a object or tree is empty');
+    if (!isAbleArray(tree) && !isAbleObject(tree)) {
+        console.warn('tree is not a able array or a object or tree is empty');
+        return [];
+    }
     const stack = isAbleObject(tree) ? [tree] : [...tree];
     let result = []
     while (stack.length > 0) {
@@ -132,7 +141,12 @@ export const flattenTreeByPostOrder = (tree) => {
  * @returns {Array} 压平的树
 */
 export const reduceFlattenTree = (tree) => {
-    return tree.reduce((prev, cur) => {
+    if (!isAbleArray(tree) && !isAbleObject(tree)) {
+        console.warn('tree is not a able array or a object or tree is empty');
+        return [];
+    }
+    const  treeData = isAbleObject(tree) ? [tree] : [...tree];
+    return treeData.reduce((prev, cur) => {
         return isAbleArray(cur?.children) ? prev.concat(cur, reduceFlattenTree(cur.children)) : prev.concat(cur)
     }, [])
 }
@@ -150,8 +164,11 @@ export const findTreeByFlatArray = (flatTreeData, key, value) => flatTreeData.fi
  * @description 默认情况下记录当前节点的路径id集合 、showDetail为true时候返回当前节点的详细信息
  */
 export const findParent = (tree, parentId, showDetail = false) => {
-    if (!isAbleArray(tree)) throw new Error( `${tree} is not a array or arr is empty`);
-    if(!parentId) throw new Error( `${parentId} is not a able value`);
+    if (!isAbleArray(tree) && !isAbleObject(tree)) {
+        console.warn(`tree  is not a array or arr is empty`);
+        return [];
+    }
+    if(!parentId) throw new Error( `parentId is not a able value`);
     const treeData = flattenTree(tree);
     let container = [];
     let parent = treeData.find(item => item.id === parentId);
@@ -167,11 +184,15 @@ export const findParent = (tree, parentId, showDetail = false) => {
  * @param {String | Number} value 要查找的value
  * @return 返回当前节点对象
  * @description 广度优先遍历、非递归
+ * @example [{id:1,children:[{id:2}] }] findTreeByTreeData(tree,'id',2) ==> {id:2}
 */
 export const findTreeByTreeData = (tree, key, value) => {
-    if (!isAbleArray(tree)) throw new Error('tree is not a array or arr is empty');
+    if (!isAbleArray(tree) && !isAbleObject(tree)) {
+        console.warn('tree is not a array or arr is empty');
+        return null;
+    }
     let result = null;
-    const treeData = [...tree];
+    const treeData = isAbleObject(tree) ? [tree] : [...tree];
     while (treeData.length > 0) {
         const node = treeData.shift();
         if (node[key] === value) {
@@ -189,11 +210,16 @@ export const findTreeByTreeData = (tree, key, value) => {
  * @param {callback} callback 回调函数
  * @return Array<node>
  * @description 返回节点数组
+ * @example [{id:1,children:[{id:2}]}]
+ * @example findTreeByFn(tree,(node)=>node.id === 2) ==> [{id:2}]
  */
 export const findTreeByFn = (tree, callback) => {
-    if (!isAbleArray(tree)) throw new Error('tree is not a able array or tree is empty');
+    if (!isAbleArray(tree) && !isAbleObject(tree)) {
+         console.warn('tree is not a able array or tree is empty');
+         return [];
+    }
     if (!callback || !isAbleFn(callback)) throw new Error(` ${callback} is not a function`);
-    const queue = [...tree];
+    const queue = isAbleObject(tree) ? [tree] : [...tree];
     const result = [];
     while (queue.length > 0) {
         const node = queue.shift();
@@ -205,7 +231,6 @@ export const findTreeByFn = (tree, callback) => {
     return result;
 }
 /**
- *
  * @param {Array} tree 树数组(正常树)
  * @param {String} key
  * @param {String | Number} value
@@ -214,7 +239,10 @@ export const findTreeByFn = (tree, callback) => {
  * @example findChildrenList([{id:1,children:[{id:2,children:[{id:3}]}]}],'id',1)  [{id:2},{id:3}]
  */
 export const findChildrenList = (tree, key, value) => {
-    if (!isAbleArray(tree)) throw new Error('tree is not a array or arr is empty');
+    if (!isAbleArray(tree) && !isAbleObject(tree))  {
+        console.warn('current node is not a able array or tree is empty or not children')
+        return [];
+    }
     let result = [];
     const treeData = [...tree];
     while (treeData.length > 0) {

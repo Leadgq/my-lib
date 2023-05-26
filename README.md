@@ -1,5 +1,6 @@
 <h1>swb-lib方法</h1>
-<h2>0.2.0新增 findTreeByFn</h2>
+<h2>0.2.0新增 findTreeByFn </h2>
+<h2>异常抛出不在使用error、关键点保留报错机制 </h2>
 
 ```js
 /**
@@ -112,7 +113,7 @@ findTreeByFlatArray(flatTreeData, key, value);
  * @returns {Array} 路径
  * @description 默认情况下记录当前节点的路径id集合 、showDetail为true时候返回当前节点的详细信息
  */
-findParent(tree, parentId);
+findParent(tree, parentId,showDetail);
 ```
 
 
