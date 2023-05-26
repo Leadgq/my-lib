@@ -239,24 +239,55 @@ export const findTreeByFn = (tree, callback) => {
  * @example findChildrenList([{id:1,children:[{id:2,children:[{id:3}]}]}],'id',1)  [{id:2},{id:3}]
  */
 export const findChildrenList = (tree, key, value) => {
-    if (!isAbleArray(tree) && !isAbleObject(tree))  {
+    if (!isAbleArray(tree) && !isAbleObject(tree)) {
         console.warn('current node is not a able array or tree is empty or not children')
         return [];
     }
+    if (!isAbleString(key)) { 
+        console.warn('key is not a able value');
+        return [];
+    }
+    if (!value && value !==0 ) {
+        console.warn('value is not a able value');
+        return [];
+    }
+   return findChildListResult({ tree, key, value });
+}
+/**
+ * @param {Array} tree 树数组(正常树)
+ * @param {callBack} callBack 回调函数
+ * @description 深度优先遍历、非递归
+ * @example findChildrenListByFn(tree, (item) =>  item.check === false && (item.key === '1'))
+ * @returns {Array} 返回当前节点的所有子节点
+ */
+export const findChildrenListByFn = (tree, callBack) => {
+    if (!isAbleArray(tree) && !isAbleObject(tree)) {
+        console.warn('current node is not a able array or tree is empty or not children')
+        return [];
+    }
+    if (!isAbleFn(callBack)) {
+        console.warn('callBack is not a able function');
+        return [];
+    }
+    return findChildListResult({ tree, callBack });
+}
+const findChildListResult = ({ tree, key, value, callBack }) => {
     let result = [];
     const treeData = [...tree];
     while (treeData.length > 0) {
-        const node = treeData.shift();
-        if (node[key] === value) {
-            result = [...flattenTree(node.children)];
-            break;
+      const node = treeData.shift();
+      if (key && value) {
+        if (node[key] === value && isAbleArray(node?.children)) {
+          result = [...flattenTree(node.children)];
+          break;
         }
-        if (isAbleArray(node?.children)) {
-            treeData.unshift(...node.children);
-        }
+      } else if (callBack) {
+        if (callBack(node) && isAbleArray(node?.children)) result = [...flattenTree(node.children)];
+      }
+      if (isAbleArray(node?.children)) treeData.unshift(...node.children);
     }
     return result;
-}
+  }
 /**
  * @description 用于处理联动
  * @param {Array} tree 树数组(正常树)
