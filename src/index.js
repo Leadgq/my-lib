@@ -387,3 +387,33 @@ export const calculatePercentage = (value, total, dots = 2) => {
     if (!isAbleNumber(value) || !isAbleNumber(total)) throw new Error('value or total is not a able number or  a  able string');
     return (value / total * 100).toFixed(dots);
 }
+export const control = (queue, controlCount = 2) => { 
+    let result = [];
+    if (!isAbleArray(queue)) { 
+        throw new Error('queue not able')
+    }
+    return new Promise((resolve) => {
+        let index = 0;
+        let finishCount = 0;
+        if (queue.length === 0) { 
+            resolve(result);
+            return;
+        }
+        function _run() { 
+            const task = queue[index];
+            index++;
+            task.then((res) => { 
+                finishCount++;
+                result.push(res);
+                if (index < task.length) {
+                    _run();
+                } else if (finishCount ===task.length) { 
+                    resolve(result);
+                }
+            })
+        }
+        for (let i = 0; i < queue.length && i < controlCount; i++ ) { 
+            _run();
+        }
+    })
+}
