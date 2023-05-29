@@ -1,6 +1,6 @@
 <h1>swb-lib方法树方法</h1>
 <h2>新增 findTreeByFn、findChildrenListByFn </h2>
-<h2> findTreeByFn方法接受函数、在函数中根据你返回的结果，决定节点的返回结果、将控制权全部交给你 </h2>
+<h2> findTreeByFn、findChildrenListByFn方法接受函数、在函数中根据你返回的结果，决定节点的返回结果、将控制权全部交给你 </h2>
 <h2>异常抛出不在使用error、关键点保留报错机制 </h2>
 
 ```js
