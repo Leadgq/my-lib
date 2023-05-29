@@ -273,7 +273,7 @@ export const findChildrenListByFn = (tree, callBack) => {
 }
 const findChildListResult = ({ tree, key, value, callBack }) => {
     let result = [];
-    const treeData = [...tree];
+    const treeData = isAbleObject(tree) ? [tree] : [...tree];
     while (treeData.length > 0) {
       const node = treeData.shift();
       if (key && value) {
