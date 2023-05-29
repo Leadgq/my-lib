@@ -136,9 +136,20 @@ findTreeByTreeData(tree, key, value);
  * @param {callback} callback 回调函数
  * @return Array<node>
  * @description 返回节点数
- * @example findTreeByFn([{id:1,children:[{id:2,check:true,children:[{id:3}]}]}],(node)=>{return node.id === 2 && item.check})  [{id:3}]
+ * @example findTreeByFn([{id:1,children:[{id:2,check:true,children:[{id:3}]}]}],(node)=>{return node.id === 2 && item.check})  [{id:2}]
  */
 findTreeByFn(tree,callback);
+```
+
+```js
+/**
+ * @param {Array} tree 树数组(正常树)
+ * @param {callBack} callBack 回调函数
+ * @description 深度优先遍历、非递归
+ * @example findChildrenListByFn(tree, (item) =>  item.check === false && (item.key === '1'))
+ * @returns {Array} 返回当前节点的所有子节点
+ */
+findChildrenListByFn(tree, callback)
 ```
 
 ```js

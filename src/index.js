@@ -159,7 +159,7 @@ export const findTreeByFlatArray = (flatTreeData, key, value) => flatTreeData.fi
 /**
  * @param {Array} tree 树数组
  * @param {String} parentId  当前节点的父节点id、这个节点parentId应来来自于点击时候的parentId
- * @param showDetail 是否返回当前节点的详细信息
+ * @param {Boolean} showDetail 是否返回当前节点的详细信息
  * @returns {Array} 路径
  * @description 默认情况下记录当前节点的路径id集合 、showDetail为true时候返回当前节点的详细信息
  */
