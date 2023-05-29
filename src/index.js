@@ -405,7 +405,7 @@ export const control = (queue, controlCount = 2) => {
             task.then((res) => { 
                 finishCount++;
                 result.push(res);
-                if (index < task.length) {
+                if (index < queue.length) {
                     _run();
                 } else if (finishCount === queue.length) { 
                     resolve(result);
