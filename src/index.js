@@ -243,7 +243,7 @@ export const findChildrenList = (tree, key, value) => {
         console.warn('current node is not a able array or tree is empty or not children')
         return [];
     }
-    if (!isAbleString(key)) { 
+    if (!isAbleString(key)) {
         console.warn('key is not a able value');
         return [];
     }
@@ -387,32 +387,39 @@ export const calculatePercentage = (value, total, dots = 2) => {
     if (!isAbleNumber(value) || !isAbleNumber(total)) throw new Error('value or total is not a able number or  a  able string');
     return (value / total * 100).toFixed(dots);
 }
-export const control = (queue, controlCount = 2) => { 
+/**
+ * @param {Array} queue
+ * @param {number} controlCount
+ * @returns {Promise} 返回整个队列的最终结果
+ */
+export const controlNetWorkConcurrency = (queue, controlCount = 2) => {
     let result = [];
-    if (!isAbleArray(queue)) { 
-        throw new Error('queue not able')
+    if (!isAbleArray(queue)) {
+        throw new Error('queue not able  array or queue is empty');
     }
     return new Promise((resolve) => {
         let index = 0;
         let finishCount = 0;
-        if (queue.length === 0) { 
+        if (queue.length === 0) {
             resolve(result);
             return;
         }
-        function _run() { 
+
+        function _run() {
             const task = queue[index];
             index++;
-            task.then((res) => { 
+            task.then((res) => {
                 finishCount++;
                 result.push(res);
                 if (index < queue.length) {
                     _run();
-                } else if (finishCount === queue.length) { 
+                } else if (finishCount === queue.length) {
                     resolve(result);
                 }
             })
         }
-        for (let i = 0; i < queue.length && i < controlCount; i++ ) { 
+
+        for (let i = 0; i < queue.length && i < controlCount; i++) {
             _run();
         }
     })
