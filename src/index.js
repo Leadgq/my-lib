@@ -159,7 +159,7 @@ export const findTreeByFlatArray = (flatTreeData, key, value) => flatTreeData.fi
 /**
  * @param {Array} tree 树数组
  * @param {String} parentId  当前节点的父节点id、这个节点parentId应来来自于点击时候的parentId
- * @param showDetail 是否返回当前节点的详细信息
+ * @param {Boolean} showDetail 是否返回当前节点的详细信息
  * @returns {Array} 路径
  * @description 默认情况下记录当前节点的路径id集合 、showDetail为true时候返回当前节点的详细信息
  */
@@ -243,7 +243,7 @@ export const findChildrenList = (tree, key, value) => {
         console.warn('current node is not a able array or tree is empty or not children')
         return [];
     }
-    if (!isAbleString(key)) { 
+    if (!isAbleString(key)) {
         console.warn('key is not a able value');
         return [];
     }
@@ -273,7 +273,7 @@ export const findChildrenListByFn = (tree, callBack) => {
 }
 const findChildListResult = ({ tree, key, value, callBack }) => {
     let result = [];
-    const treeData = [...tree];
+    const treeData = isAbleObject(tree) ? [tree] : [...tree];
     while (treeData.length > 0) {
       const node = treeData.shift();
       if (key && value) {
@@ -386,4 +386,41 @@ export const calculatePercentage = (value, total, dots = 2) => {
     if (total === 0) throw new Error('total is 0');
     if (!isAbleNumber(value) || !isAbleNumber(total)) throw new Error('value or total is not a able number or  a  able string');
     return (value / total * 100).toFixed(dots);
+}
+/**
+ * @param {Array} queue
+ * @param {number} controlCount
+ * @returns {Promise} 返回整个队列的最终结果
+ */
+export const controlNetWorkConcurrency = (queue, controlCount = 2) => {
+    let result = [];
+    if (!isAbleArray(queue)) {
+        throw new Error('queue not able  array or queue is empty');
+    }
+    return new Promise((resolve) => {
+        let index = 0;
+        let finishCount = 0;
+        if (queue.length === 0) {
+            resolve(result);
+            return;
+        }
+
+        function _run() {
+            const task = queue[index];
+            index++;
+            task.then((res) => {
+                finishCount++;
+                result.push(res);
+                if (index < queue.length) {
+                    _run();
+                } else if (finishCount === queue.length) {
+                    resolve(result);
+                }
+            })
+        }
+
+        for (let i = 0; i < queue.length && i < controlCount; i++) {
+            _run();
+        }
+    })
 }

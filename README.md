@@ -1,6 +1,6 @@
 <h1>swb-lib方法树方法</h1>
-<h2>新增 findTreeByFn、findChildrenListByFn </h2>
-<h2> findTreeByFn方法接受函数、在函数中根据你返回的结果，决定节点的返回结果、将控制权全部交给你 </h2>
+<h2>新增findTreeByFn、findChildrenListByFn </h2>
+<h2> findTreeByFn、findChildrenListByFn方法接受函数、在函数中根据你返回的结果，决定节点的返回结果、将控制权全部交给你 </h2>
 <h2>异常抛出不在使用error、关键点保留报错机制 </h2>
 
 ```js
@@ -136,9 +136,20 @@ findTreeByTreeData(tree, key, value);
  * @param {callback} callback 回调函数
  * @return Array<node>
  * @description 返回节点数
- * @example findTreeByFn([{id:1,children:[{id:2,check:true,children:[{id:3}]}]}],(node)=>{return node.id === 2 && item.check})  [{id:3}]
+ * @example findTreeByFn([{id:1,children:[{id:2,check:true,children:[{id:3}]}]}],(node)=>{return node.id === 2 && item.check})  [{id:2}]
  */
 findTreeByFn(tree,callback);
+```
+
+```js
+/**
+ * @param {Array} tree 树数组(正常树)
+ * @param {callBack} callBack 回调函数
+ * @description 深度优先遍历、非递归
+ * @example findChildrenListByFn(tree, (item) =>  item.check === false && (item.key === '1'))
+ * @returns {Array} 返回当前节点的所有子节点
+ */
+findChildrenListByFn(tree, callback)
 ```
 
 ```js
