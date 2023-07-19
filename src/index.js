@@ -207,7 +207,7 @@ export const findTreeByTreeData = (tree, key, value) => {
 }
 /**
  * @param {Array} tree  树数组(正常树)
- * @param {callback} callback 回调函数
+ * @param {function(*): boolean} callback 回调函数
  * @return Array<node>
  * @description 返回节点数组
  * @example [{id:1,children:[{id:2}]}]
@@ -350,6 +350,61 @@ const handlerParentTreeNodeState = (treeData, item, indeterminate, checked, key)
             }
         });
     }
+}
+const deps = (obj, path, target, key) => {
+    let result = '';
+    function dfs(obj, path, target, key) {
+        if (!obj) return;
+        if (obj[key] === target) {
+            path += obj[key];
+            result += path;
+            return;
+        }
+        path += obj[key] + '->';
+        obj.children && obj.children.forEach((ele) => {
+            dfs(ele, path, target, key);
+        })
+    }
+    dfs(obj, path, target, key)
+    if (result) return result;
+}
+/**
+ * @param {Array} treeArray 树数组(正常树)
+ * @param {string} target  节点的值
+ * @param {string} key 你的唯一标识key
+ * @param {boolean} showDetail 是否显示路径的详细信息
+ * @description  递归
+ * @example findNode([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a') => [1,2]
+ * @example findNode([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a',true) => [{a:1},{a:2}]
+ * @returns {Array} 返回路径
+ */
+export const findPath = (treeArray, target, key,showDetail) => {
+    if (!isAbleArray(treeArray)) {
+        console.warn('treeArray is not a array or treeArray is empty');
+        return;
+    }
+    let res = '';
+    for (const ele of treeArray) {
+        res = deps(ele, '', target, key);
+        if (res)  break;
+    }
+    //  处理结果
+    if (res) {
+        let middle = res.split('->');
+        const length = middle.length;
+        if (length === 1) {
+            res = middle[0];
+        } else {
+            middle.pop();
+            res = middle;
+        }
+        if (showDetail) {
+            res = findTreeByFn(treeArray, (item) => res.includes(item[key]))
+        }
+    } else {
+        res = '没有找到该节点';
+    }
+    return res;
 }
 /**
  * @param {Array}
