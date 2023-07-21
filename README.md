@@ -166,6 +166,20 @@ findChildrenList(tree, key,value)
 
 ```js
 /**
+ * @param {Array} treeArray 树数组(正常树)
+ * @param {string} target  节点的值
+ * @param {string} key 你的唯一标识key
+ * @param {boolean} showDetail 是否显示路径的详细信息
+ * @description  递归
+ * @example findNode([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a') => [1,2]
+ * @example findNode([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a',true) => [{a:1},{a:2}]
+ * @returns {Array} 返回路径
+ */
+findPath(treeArray, target, key, showDetail)
+```
+
+```js
+/**
  * @description 用于处理联动
  * @param {Array} tree 树数组(正常树)
  * @param {Object} item 当前节点
