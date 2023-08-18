@@ -176,8 +176,8 @@ findChildrenList(tree, key,value)
  * @param {string} key 你的唯一标识key
  * @param {boolean} showDetail 是否显示路径的详细信息
  * @description  递归
- * @example findNode([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a') => [1,2]
- * @example findNode([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a',true) => [{a:1},{a:2}]
+ * @example findPath([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a') => [1,2]
+ * @example findPath([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a',true) => [{a:1},{a:2}]
  * @returns {Array} 返回路径
  */
 findPath(treeArray, target, key, showDetail)
