@@ -1,7 +1,12 @@
 <h1>swb-lib方法树方法</h1>
-<h2>新增findTreeByFn、findChildrenListByFn </h2>
-<h2> findTreeByFn、findChildrenListByFn方法接受函数、在函数中根据你返回的结果，决定节点的返回结果、将控制权全部交给你 </h2>
-<h2>异常抛出不在使用error、关键点保留报错机制 </h2>
+<h3>
+    新增<span style="color: red">findPath</span>方法 用于记录路径
+    <span style="color:red">findParent</span> 
+    方法太依赖于数据结构中的
+    <span style="color:red;">parentId</span>
+    字段,没有parentId字段的数据结构无法使用
+    <span style="color:red;">findPath</span> 方法可以解决这个问题
+</h3>
 
 ```js
 /**
@@ -171,8 +176,8 @@ findChildrenList(tree, key,value)
  * @param {string} key 你的唯一标识key
  * @param {boolean} showDetail 是否显示路径的详细信息
  * @description  递归
- * @example findNode([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a') => [1,2]
- * @example findNode([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a',true) => [{a:1},{a:2}]
+ * @example findPath([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a') => [1,2]
+ * @example findPath([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a',true) => [{a:1},{a:2}]
  * @returns {Array} 返回路径
  */
 findPath(treeArray, target, key, showDetail)
