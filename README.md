@@ -1,11 +1,6 @@
 <h1>swb-lib方法树方法</h1>
 <h3>
-    新增<span style="color: red">findPath</span>方法 用于记录路径
-    <span style="color:red">findParent</span> 
-    方法太依赖于数据结构中的
-    <span style="color:red;">parentId</span>
-    字段,没有parentId字段的数据结构无法使用
-    <span style="color:red;">findPath</span> 方法可以解决这个问题
+    新增<span style="color: red">isParentNode、isChildNode</span>方法 判断节点状态
 </h3>
 
 ```js
@@ -185,17 +180,22 @@ findPath(treeArray, target, key, showDetail)
 
 ```js
 /**
- * @description 用于处理联动
- * @param {Array} tree 树数组(正常树)
- * @param {Object} item 当前节点
- * @param {string} indeterminate 你的半选状态的key
- * @param {string} checked 你的选中状态的key
- * @param {string | undefined | null } rootId 根节点的parentId 
- * @param {string} key 你的唯一标识key
- * @description rootParentId 用于判断当前节点是否是根节点
- * @detail 一棵树必须包含主键（id）、parentId、children三个字段 否则无法使用
+ * 
+ * @param {Object} node 
+ * @returns {Boolean}
+ * @description 返回当前节点在树中是否是父节点
  */
-handlerLinkage(treeData, item, indeterminate, checked, rootParentId, key)
+isParentNode(node)
+```
+
+```js
+/**
+ * 
+ * @param {Object} node 
+ * @returns {Boolean}
+ * @description 返回当前节点在树中是否是子节点
+ */
+isChildNode (node)
 ```
 
 ```js
@@ -203,7 +203,7 @@ handlerLinkage(treeData, item, indeterminate, checked, rootParentId, key)
  * @param {Array} 
  * @param {String} key
  * @returns {Number} 返回数组中key的和
- * @ description 数组中的key所对应的值如果是undefined、null、''、NaN、' '，会先转换为0，然后再相加
+ * @description 数组中的key所对应的值如果是undefined、null、''、NaN、' '，会先转换为0，然后再相加
  * @example sumArrayValue([{a:1},{a:2},{a:'3'},{a:null}, {a:undefined}],'a') // 6
  */
 sumArrayValue(arr, key)
