@@ -1,11 +1,6 @@
 <h1>swb-lib方法树方法</h1>
 <h3>
-    新增<span style="color: red">findPath</span>方法 用于记录路径
-    <span style="color:red">findParent</span> 
-    方法太依赖于数据结构中的
-    <span style="color:red;">parentId</span>
-    字段,没有parentId字段的数据结构无法使用
-    <span style="color:red;">findPath</span> 方法可以解决这个问题
+    新增<span style="color: red">isParentNode、isChildNode</span>方法 判断节点状态
 </h3>
 
 ```js
