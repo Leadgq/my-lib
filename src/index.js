@@ -374,8 +374,8 @@ const deps = (obj, path, target, key) => {
  * @param {string} key 你的唯一标识key
  * @param {boolean} showDetail 是否显示路径的详细信息
  * @description  递归
- * @example findNode([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a') => [1,2]
- * @example findNode([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a',true) => [{a:1},{a:2}]
+ * @example findPath([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a') => [1,2]
+ * @example findPath([{a:1,children:[{a:2,children:[{a:3}]}]}],3,'a',true) => [{a:1},{a:2}]
  * @returns {Array} 返回路径
  */
 export const findPath = (treeArray, target, key,showDetail) => {
@@ -406,11 +406,30 @@ export const findPath = (treeArray, target, key,showDetail) => {
     }
     return res;
 }
+
+/**
+ * 
+ * @param {Object} node 
+ * @returns {Boolean}
+ * @description 返回当前节点在树中是否是父节点
+ */
+export const isParentNode = (node) => { 
+    return   node.children && node.children.length > 0;
+}
+/**
+ * 
+ * @param {Object} node 
+ * @returns {Boolean}
+ * @description 返回当前节点在树中是否是子节点
+ */
+export const isChildNode = (node) => {
+    return  !isParentNode(node);
+}
 /**
  * @param {Array}
  * @param {String} key
  * @returns {Number} 返回数组中key的和
- * @ description 数组中的key所对应的值如果是undefined、null、''、NaN、' '，会先转换为0，然后再相加
+ * @description 数组中的key所对应的值如果是undefined、null、''、NaN、' '，会先转换为0，然后再相加
  * @example sumArrayValue([{a:1},{a:2},{a:'3'},{a:null}, {a:undefined}],'a') // 6
  */
 export const sumArrayValue = (arr, key) => {
