@@ -234,11 +234,12 @@ export const findTreeByFn = (tree, callback) => {
  * @param {Array} tree 树数组(正常树)
  * @param {String} key
  * @param {String | Number} value
+ * @param {Boolean} showDetail 是否返回当前节点的详细信息 默认true
  * @returns {Array} 返回当前节点的所有子节点
  * @description 深度优先遍历、非递归
  * @example findChildrenList([{id:1,children:[{id:2,children:[{id:3}]}]}],'id',1)  [{id:2},{id:3}]
  */
-export const findChildrenList = (tree, key, value) => {
+export const findChildrenList = (tree, key, value, showDetail = true) => {
     if (!isAbleArray(tree) && !isAbleObject(tree)) {
         console.warn('current node is not a able array or tree is empty or not children')
         return [];
@@ -251,7 +252,7 @@ export const findChildrenList = (tree, key, value) => {
         console.warn('value is not a able value');
         return [];
     }
-   return findChildListResult({ tree, key, value });
+   return findChildListResult({ tree, key, value,showDetail });
 }
 /**
  * @param {Array} tree 树数组(正常树)
@@ -271,23 +272,27 @@ export const findChildrenListByFn = (tree, callBack) => {
     }
     return findChildListResult({ tree, callBack });
 }
-const findChildListResult = ({ tree, key, value, callBack }) => {
+const findChildListResult = ({tree, key, value, callBack, showDetail = true}) => {
     let result = [];
     const treeData = isAbleObject(tree) ? [tree] : [...tree];
     while (treeData.length > 0) {
-      const node = treeData.shift();
-      if (key && value) {
-        if (node[key] === value && isAbleArray(node?.children)) {
-          result = [...flattenTree(node.children)];
-          break;
+        const node = treeData.shift();
+        if (key && value) {
+            if (node[key] === value && isAbleArray(node?.children)) {
+                if (showDetail) {
+                    result = [...flattenTree(node.children)];
+                } else {
+                    result = flattenTree(node.children).map(item => item[key]);
+                }
+                break;
+            }
+        } else if (callBack) {
+            if (callBack(node) && isAbleArray(node?.children)) result = [...flattenTree(node.children)];
         }
-      } else if (callBack) {
-        if (callBack(node) && isAbleArray(node?.children)) result = [...flattenTree(node.children)];
-      }
-      if (isAbleArray(node?.children)) treeData.unshift(...node.children);
+        if (isAbleArray(node?.children)) treeData.unshift(...node.children);
     }
     return result;
-  }
+}
 /**
  * @description 用于处理联动
  * @param {Array} tree 树数组(正常树)
@@ -408,17 +413,17 @@ export const findPath = (treeArray, target, key,showDetail) => {
 }
 
 /**
- * 
- * @param {Object} node 
+ *
+ * @param {Object} node
  * @returns {Boolean}
  * @description 返回当前节点在树中是否是父节点
  */
-export const isParentNode = (node) => { 
+export const isParentNode = (node) => {
     return   node.children && node.children.length > 0;
 }
 /**
- * 
- * @param {Object} node 
+ *
+ * @param {Object} node
  * @returns {Boolean}
  * @description 返回当前节点在树中是否是子节点
  */
