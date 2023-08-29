@@ -157,11 +157,12 @@ findChildrenListByFn(tree, callback)
  * @param {Array} tree 树数组(正常树) 
  * @param {String} key 
  * @param {String | Number} value 
+ * @param {Boolean} showDetail 是否返回当前节点的详细信息 默认true
  * @returns {Array} 返回当前节点的所有子节点
  * @description 深度优先遍历、非递归
  * @example findChildrenList([{id:1,children:[{id:2,children:[{id:3}]}]}],'id',1)  [{id:2},{id:3}]
  */
-findChildrenList(tree, key,value)
+findChildrenList(tree, key,value ,showDetail = true)
 ```
 
 ```js
