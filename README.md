@@ -190,9 +190,10 @@ isParentNode(node)
 ```
 
 ```js
-/**
- * 
- * @param {Object} node 
+/** 
+ * @param {Array | Object}  treeData
+ * @param {Object} node
+ * @param { String } key
  * @returns {Boolean}
  * @description 返回当前节点在树中是否是子节点
  */
