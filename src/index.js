@@ -419,16 +419,36 @@ export const findPath = (treeArray, target, key,showDetail) => {
  * @description 返回当前节点在树中是否是父节点
  */
 export const isParentNode = (node) => {
-    return   node.children && node.children.length > 0;
+    if (!isAbleObject(node)) {
+        console.warn(`${node} is not a object`);
+        return false;
+    }
+    const isHaveChildrenList = node.children && node.children.length > 0;
+    return isHaveChildrenList;
 }
 /**
- *
+ * @param {Array | Object}  treeData
  * @param {Object} node
+ * @param { String } key
  * @returns {Boolean}
  * @description 返回当前节点在树中是否是子节点
  */
-export const isChildNode = (node) => {
-    return  !isParentNode(node);
+export const isChildNode = (treeData,node,key) => {
+    if (!isAbleArray(treeData) && !isAbleObject(treeData)) { 
+        console.warn(`${treeData} is not a array or ${treeData} is empty`);
+        return false;
+    }
+    const tree = isAbleObject(treeData) ? [treeData] : [...treeData];
+    const isParentListOrRoot = findPath(tree, node[key], key);
+    // 如果根节点、返回的是字符串
+    const isRoot = isAbleString(isParentListOrRoot)
+    const isHaveChildrenList = node.children && node.children.length > 0;
+    if (isRoot) { 
+        return false;
+    }
+    if (isHaveChildrenList || isParentListOrRoot) { 
+        return true;
+    }
 }
 /**
  * @param {Array}
@@ -438,7 +458,7 @@ export const isChildNode = (node) => {
  * @example sumArrayValue([{a:1},{a:2},{a:'3'},{a:null}, {a:undefined}],'a') // 6
  */
 export const sumArrayValue = (arr, key) => {
-    if (!isAbleArray(arr)) throw new Error('arr is not a array or arr is empty');
+    if (!isAbleArray(arr)) throw new Error(`${arr} is not a array or arr is empty`);
     let data = [...arr];
     // 如果数组中有字符串，先转换为数字
     let flag = data.some(item => isAbleString(item[key]));
