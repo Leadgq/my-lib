@@ -523,3 +523,31 @@ export const controlNetWorkConcurrency = (queue, controlCount = 2) => {
         }
     })
 }
+const rad = (d) => {
+    return d * Math.PI / 180.0;
+}
+/**
+ * @param {Array} from [lat1:纬度 , lng1:经度]
+ * @param {Array} to   [lat2:维度, lng2:经度]
+ * @example getDistance([38.8626430801, 121.5300857178],[38.831994, 121.502954])
+ * @returns 返回两个经纬度之前的距离,单位m
+ */
+export const getDistance = (from,to) => {
+    if (!isAbleArray(from) || !isAbleArray(to)) {
+        throw new Error("from or to is not able array");
+    }
+    let lat1 = stringToNumber(from[0]);
+    let lng1 = stringToNumber(from[1]);
+    let lat2 = stringToNumber(to[0]);
+    let lng2 = stringToNumber(to[1]);
+    const EARTH_RADIUS = 6378.137;
+    let radLat1 = rad(lat1);
+    let radLat2 = rad(lat2);
+    let a = radLat1 - radLat2;
+    let b = rad(lng1) - rad(lng2);
+    let s = 2 * Math.asin(Math.sqrt(
+        Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+    s = s * EARTH_RADIUS;
+    s = (s * 10000) / 10;
+    return Math.round(s);
+}
