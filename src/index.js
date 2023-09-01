@@ -424,7 +424,7 @@ export const isParentNode = (node) => {
         return false;
     }
     const isHaveChildrenList = node.children && node.children.length > 0;
-    return isHaveChildrenList;
+    return !!isHaveChildrenList;
 }
 /**
  * @param {Array | Object}  treeData
