@@ -223,3 +223,14 @@ sumArrayValue(arr, key)
 */
  calculatePercentage(value, total, dots = 2)
 ```
+
+
+```js
+/**
+ * @param {Array} from [lat1:纬度 , lng1:经度]
+ * @param {Array} to   [lat2:维度, lng2:经度]
+ * @example getDistance([38.8626430801, 121.5300857178],[38.831994, 121.502954])
+ * @returns 返回两个经纬度之前的距离,单位m
+ */
+ getDistance(from,to)
+```
