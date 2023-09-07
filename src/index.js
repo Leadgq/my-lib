@@ -482,7 +482,10 @@ export const sumArrayValue = (arr, key) => {
 export const calculatePercentage = (value, total, dots = 2) => {
     if (isAbleString(value)) value = stringToNumber(value);
     if (isAbleString(total)) total = stringToNumber(total);
-    if (total === 0) throw new Error('total is 0');
+    if (total === 0) return 0;
+    if (isNaN(value) || isNaN(total)) { 
+        return 0;
+    }
     if (!isAbleNumber(value) || !isAbleNumber(total)) throw new Error('value or total is not a able number or  a  able string');
     return parseInt(value / total * 100).toFixed(dots);
 }
