@@ -70,7 +70,9 @@ export const stringToNumber = (str) => {
  * @param fn
  * @return {boolean}
  */
-export  const isAbleFn = fn => typeof fn === 'function'
+export const isAbleFn = fn => typeof fn === 'function'
+
+export const numberIsNaN = num => isNaN(num) ? 0 : num
 
 /**
  * @param {Array | Object} tree  树数组或者树对象
@@ -480,9 +482,14 @@ export const sumArrayValue = (arr, key) => {
 * @example calculatePercentage(1, 2, 2) // 50.00
 */
 export const calculatePercentage = (value, total, dots = 2) => {
+    if (!value) value = reviseNumber(value);
+    if (!total) total = reviseNumber(total);
     if (isAbleString(value)) value = stringToNumber(value);
     if (isAbleString(total)) total = stringToNumber(total);
-    if (total === 0) throw new Error('total is 0');
+    if (total === 0) return 0;
+    // if (isNaN(value) || isNaN(total)) { 
+    //     return 0;
+    // }  
     if (!isAbleNumber(value) || !isAbleNumber(total)) throw new Error('value or total is not a able number or  a  able string');
     return parseInt(value / total * 100).toFixed(dots);
 }
