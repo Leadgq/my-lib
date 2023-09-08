@@ -495,7 +495,7 @@ export const calculatePercentage = (value, total, dots = 2) => {
         }
     }
     if (!isAbleNumber(value) || !isAbleNumber(total)) throw new Error('value or total is not a able number or  a  able string');
-    return parseInt(value / total * 100).toFixed(dots);
+    return (value / total * 100).toFixed(dots);
 }
 /**
  * @param {Array} queue
