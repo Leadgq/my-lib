@@ -486,10 +486,14 @@ export const calculatePercentage = (value, total, dots = 2) => {
     if (!total) total = reviseNumber(total);
     if (isAbleString(value)) value = stringToNumber(value);
     if (isAbleString(total)) total = stringToNumber(total);
-    if (total === 0) return 0;
-    // if (isNaN(value) || isNaN(total)) { 
-    //     return 0;
-    // }  
+    if (total === 0) { 
+        if (dots > 0) {
+            // 根据dot的位数，在后面补0
+            return '0.'.padEnd(dots + 2, '0');
+        } else { 
+            return '0';
+        }
+    }
     if (!isAbleNumber(value) || !isAbleNumber(total)) throw new Error('value or total is not a able number or  a  able string');
     return parseInt(value / total * 100).toFixed(dots);
 }
